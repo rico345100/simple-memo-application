@@ -1,0 +1,17 @@
+[ignore]
+.*/dist/.*
+
+[include]
+
+[libs]
+./src/js/global.js
+
+[options]
+esproposal.decorators=ignore
+module.name_mapper='^.*\.css$' -> 'css-module-flow'
+module.name_mapper='^.*\.scss$' -> 'css-module-flow'
+module.system=haste
+module.system.node.resolve_dirname=node_modules
+module.system.node.resolve_dirname=src/js
+
+[lints]

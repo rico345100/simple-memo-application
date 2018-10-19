@@ -1,0 +1,7 @@
+{
+    "presets": ["flow"],
+    "plugins":  [
+        "transform-class-properties",
+        "transform-decorators-legacy"
+    ]
+}

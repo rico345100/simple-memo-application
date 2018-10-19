@@ -1,0 +1,54 @@
+{
+  "name": "simple-memo-application",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open --progress --inline"
+  },
+  "keywords": [
+    "memo",
+    "sqlite",
+    "sequelize",
+    "koa",
+    "rxjs",
+    "web components"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rico345100/simple-memo-application"
+  },
+  "dependencies": {
+    "apollo-server-koa": "^2.0.0-rc.12",
+    "graphql": "^14.0.2",
+    "koa": "^2.5.3",
+    "sequelize": "^4.40.0",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "apollo-boost": "^0.1.16",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^0.28.11",
+    "css-module-flow": "^1.0.0",
+    "flow": "^0.2.3",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.1.0",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.8.3",
+    "rxjs": "^6.3.3",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.4.1",
+    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.1"
+  }
+}
