@@ -1,5 +1,9 @@
+/* @flow */
 const Koa = require('koa');
+const logger = require('koa-log');
+const bodyParser = require('koa-bodyparser');
 const { ApolloServer, gql } = require('apollo-server-koa');
+const router = require('./routes');
 
 const books = [
     {
@@ -31,6 +35,10 @@ const resolvers = {
 
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
 const server = new Koa();
+server.use(logger());
+server.use(bodyParser());
+server.use(router.routes());
+server.use(router.allowedMethods());
 
 apolloServer.applyMiddleware({ app: server });
 
