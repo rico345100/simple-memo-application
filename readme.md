@@ -4,7 +4,7 @@
 - Babel for transpile the client code
 - Webpack
 - SQLite3 with TypeORM
-- Flow for static type check
+- TS for static type check
 
 ## How to run
 Make sure you already installed Node.js and SQLite3.
@@ -31,3 +31,7 @@ $ npm start
 It's just my mistake, I thought that my next project in my company uses Sequelize, however it was TypeORM.
 
 So that's why I changed.
+
+Note that TypeORM uses TypeScript, so I replaced static type checker to TS.
+
+IDK, they are can't be co-exists.

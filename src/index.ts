@@ -1,9 +1,8 @@
-/* @flow */
-const Koa = require('koa');
-const logger = require('koa-log');
-const bodyParser = require('koa-bodyparser');
-const { ApolloServer, gql } = require('apollo-server-koa');
-const router = require('./routes');
+import * as Koa from 'koa';
+import logger from 'koa-log';
+import * as bodyParser from 'koa-bodyparser';
+import { ApolloServer, gql } from 'apollo-server-koa';
+import router from './routes';
 
 const books = [
     {

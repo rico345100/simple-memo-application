@@ -1,9 +1,9 @@
-/* @flow */
-const Router = require('koa-router');
+import Router from 'koa-router';
+
 const router = new Router();
 
 router.get('/', (ctx, next) => {
 	ctx.body = 'Helloworld';
 });
 
-module.exports = router;
+export default router;

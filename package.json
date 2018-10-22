@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --progress --inline"
+    "build:web:dev": "webpack-dev-server --mode development --open --progress --inline",
+    "start": "ts-node src/test.ts"
   },
   "keywords": [
     "memo",
@@ -21,13 +22,18 @@
     "url": "https://github.com/rico345100/simple-memo-application"
   },
   "dependencies": {
+    "@types/node": "^8.0.29",
     "apollo-server-koa": "^2.1.0",
     "graphql": "^14.0.2",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-log": "^2.1.0",
     "koa-router": "^7.4.0",
-    "sqlite3": "^4.0.2"
+    "reflect-metadata": "^0.1.12",
+    "sqlite3": "^4.0.2",
+    "ts-node": "3.3.0",
+    "typeorm": "^0.2.8",
+    "typescript": "2.5.2"
   },
   "devDependencies": {
     "apollo-boost": "^0.1.16",
@@ -40,8 +46,6 @@
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.11",
     "css-module-flow": "^1.0.0",
-    "flow": "^0.2.3",
-    "flow-cli": "0.0.0-pre",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.1.0",
     "mini-css-extract-plugin": "^0.4.0",
