@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:web:dev": "webpack-dev-server --mode development --open --progress --inline",
-    "start": "ts-node src/test.ts"
+    "start": "ts-node src/index.ts"
   },
   "keywords": [
     "memo",
@@ -22,6 +22,7 @@
     "url": "https://github.com/rico345100/simple-memo-application"
   },
   "dependencies": {
+    "@types/koa-router": "^7.0.32",
     "@types/node": "^8.0.29",
     "apollo-server-koa": "^2.1.0",
     "graphql": "^14.0.2",
