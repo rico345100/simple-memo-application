@@ -3,7 +3,7 @@
 - Koa + Apollo Server for Web Serving and XHR Requests
 - Babel for transpile the client code
 - Webpack
-- SQLite3 with Sequelize
+- SQLite3 with TypeORM
 - Flow for static type check
 
 ## How to run
@@ -26,3 +26,8 @@ Finally, run Webpack Dev Server.
 ```bash
 $ npm start
 ```
+
+## Why did you switched Sequelize to TypeORM?
+It's just my mistake, I thought that my next project in my company uses Sequelize, however it was TypeORM.
+
+So that's why I changed.
