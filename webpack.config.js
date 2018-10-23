@@ -13,7 +13,8 @@ module.exports = {
     },
     entry: './web-src/ts/index.ts',
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js', '.json', '.jsx'],
+        mainFields: ['browser', 'main', 'module']
     },
     output: {
         path: path.resolve(__dirname, 'web-dist'),
@@ -64,45 +65,15 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     {
-                        loader: 'style-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            modules: true,
-                            sourceMap: true
-                        }
+                        loader: 'raw-loader'
                     }
                 ]
             },
             {
-                test: /\.scss$/,
+                test: /\.tpl$/,
                 use: [
                     {
-                        loader: 'style-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            localIdentName: '[name].[sha512:hash:base32].[local]',
-                            modules: true,
-                            sourceMap: true
-                        }
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            includePaths: [
-                                './web-src/css'
-                            ],
-                            sourceMap: true
-                        }
+                        loader: 'raw-loader'
                     }
                 ]
             }

@@ -13,7 +13,7 @@ export default {
         },
     },
     Mutation: {
-        createNote: async function(root, { title, text }) {
+        createNote: async function(root:any, { title, text }: { title:string, text: string}) {
             const newNote = new Note();
             newNote.title = title;
             newNote.text = text;
@@ -21,7 +21,7 @@ export default {
             const connection:Connection = db.connection;
             await connection.manager.save(newNote);
         },
-        updateNote: async function(root, { id, title, text }) {
+        updateNote: async function(root:any, { id, title, text }: { id:number, title:string, text:string }) {
             if(!id) {
                 throw new BadRequestError(`Invalid ID`);
             }
@@ -39,7 +39,7 @@ export default {
 
             await noteRepository.save(note);
         },
-        deleteNote: async function(root, { id }) {
+        deleteNote: async function(root:any, { id }: { id:number }) {
             if(!id) {
                 throw new BadRequestError(`Invalid ID`);
             }

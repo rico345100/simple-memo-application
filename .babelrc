@@ -1,5 +1,5 @@
 {
-    "presets": ["@babel/typescript"],
+    "presets": [],
     "plugins":  [
         "@babel/plugin-proposal-class-properties",
         ["@babel/plugin-proposal-decorators", { "legacy": true }]

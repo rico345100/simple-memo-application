@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
-      "lib": ["dom"],
+      "lib": ["es2015", "dom"],
       "outDir": "./web-dist",
       "noImplicitAny": true,
       "sourceMap": true,
       "moduleResolution": "node",
       "module": "es6",
-      "target": "es5",
+      "target": "es2015",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true
     },
