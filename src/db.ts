@@ -64,7 +64,7 @@ export default {
     // Properties
     Events,
 
-    // Getter
+    // Getters
     /**
      * Get Connection of TypeORM. Note that this will throw InternalServerError if no connection available
      * @param {void}

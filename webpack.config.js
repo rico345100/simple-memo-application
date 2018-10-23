@@ -11,14 +11,12 @@ module.exports = {
         hot: true,  // Enabling HMR
         port: 3300
     },
-    entry: {
-        bundle: './web-src/js/index.js',
-        vendor: [
-            'babel-polyfill'
-        ]
+    entry: './web-src/ts/index.ts',
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'web-dist'),
         publicPath: '/',
         filename: '[name].[hash].js'
     },
@@ -37,8 +35,16 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
+                test: /\.tsx?$/, 
+                use: {
+                    loader: 'ts-loader',
+                    options: {
+                        transpileOnly: true
+                    }
+                }
+            },
+            {
+                test: /\.m?js$/,
                 use: {
                     loader: 'babel-loader'
                 }
@@ -57,6 +63,12 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
                     {
                         loader: "css-loader",
                         options: {
@@ -104,12 +116,5 @@ module.exports = {
         // NamedModulesPlugin: The relative path of the module to be displayed when HMR is enabled.
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
-    ],
-    resolve: {
-        modules: [
-            path.resolve('./web-src'),
-            path.resolve('./web-src/js'),
-            path.resolve('./node_modules')
-        ]
-    }
+    ]
 };

@@ -1,16 +1,14 @@
 {
-   "compilerOptions": {
-      "lib": [
-         "es5",
-         "es6"
-      ],
-      "target": "es5",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "outDir": "./build",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
+    "compilerOptions": {
+      "lib": ["dom"],
+      "outDir": "./web-dist",
+      "noImplicitAny": true,
       "sourceMap": true,
-      "strictNullChecks": true
-   }
-}
+      "moduleResolution": "node",
+      "module": "es6",
+      "target": "es5",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true
+    },
+    "exclude": ["node_modules"]
+  }
