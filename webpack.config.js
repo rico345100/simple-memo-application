@@ -6,13 +6,13 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     devtool: 'source-map',
     devServer: {
-        contentBase: './dist',
+        contentBase: './web-dist',
         historyApiFallback: true,
         hot: true,  // Enabling HMR
         port: 3300
     },
     entry: {
-        bundle: './src/js/index.js',
+        bundle: './web-src/js/index.js',
         vendor: [
             'babel-polyfill'
         ]
@@ -87,7 +87,7 @@ module.exports = {
                         loader: 'sass-loader',
                         options: {
                             includePaths: [
-                                './src/css'
+                                './web-src/css'
                             ],
                             sourceMap: true
                         }
@@ -97,9 +97,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist']),
+        new CleanWebpackPlugin(['web-dist']),
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            template: './web-src/index.html'
         }),
         // NamedModulesPlugin: The relative path of the module to be displayed when HMR is enabled.
         new webpack.NamedModulesPlugin(),
@@ -107,8 +107,8 @@ module.exports = {
     ],
     resolve: {
         modules: [
-            path.resolve('./src'),
-            path.resolve('./src/js'),
+            path.resolve('./web-src'),
+            path.resolve('./web-src/js'),
             path.resolve('./node_modules')
         ]
     }

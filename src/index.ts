@@ -2,7 +2,7 @@ import "reflect-metadata";
 import * as Koa from 'koa';
 import * as logger from 'koa-log';
 import * as bodyParser from 'koa-bodyparser';
-import { ApolloServer, gql } from 'apollo-server-koa';
+import { ApolloServer } from 'apollo-server-koa';
 import router from './routes';
 import typeDefs from './graphql/typedefs';
 import resolvers from './graphql/resolvers';

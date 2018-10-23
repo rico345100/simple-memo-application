@@ -2,8 +2,9 @@ import { gql } from 'apollo-server-koa';
 
 const typeDefs = gql`
     type Note {
+        id: Int
         title: String
-        content: String
+        text: String
         createdAt: String
         updatedAt: String
     }
@@ -13,7 +14,9 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        createNote(title:String, content: String): Boolean
+        createNote(title:String, text: String): Boolean
+        updateNote(id:Int, title:String, text:String): Boolean
+        deleteNote(id:Int): Boolean
     }
 `;
 

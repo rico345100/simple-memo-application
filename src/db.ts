@@ -1,7 +1,7 @@
-import { createConnection, Connection } from "typeorm";
+import { createConnection, Connection } from 'typeorm';
 import { EventEmitter } from 'events';
-import { filter } from "async";
 import { NullableConnection } from './types';
+import { InternalServerError } from './errors';
 
 const Events = {
     Connected: 'onconnected',
@@ -33,9 +33,10 @@ interface IDBDisconnectOptions {
 /**
  * Disconnect from Database
  * @param {IDBDisconnectOptions} options - Options
+ * @return {Promise<any|Error>}
  */
 async function disconnect(options?:IDBDisconnectOptions):Promise<any|Error> {
-    if(m_Connection == null) return Promise.resolve();
+    if(m_Connection === null) return Promise.resolve();
 
     let eventInvoked = false;
 
@@ -48,7 +49,7 @@ async function disconnect(options?:IDBDisconnectOptions):Promise<any|Error> {
         eventInvoked = true;
     }
     catch(err) {
-        throw err;
+        return Promise.reject(err);
     }
     finally {
         let filteredOption:IDBDisconnectOptions = typeof options === 'undefined' ? {} : options;
@@ -62,10 +63,21 @@ async function disconnect(options?:IDBDisconnectOptions):Promise<any|Error> {
 export default {
     // Properties
     Events,
+
     // Getter
-    get connection():NullableConnection {
+    /**
+     * Get Connection of TypeORM. Note that this will throw InternalServerError if no connection available
+     * @param {void}
+     * @return {TypeORM.Connection} - Connection of TypeORM
+     */
+    get connection():Connection {
+        if(m_Connection === null) {
+            throw new InternalServerError('Failed to obtain connection for Database.');
+        }
+
         return m_Connection;
     },
+
     // Functions
     disconnect,
     eventManager,

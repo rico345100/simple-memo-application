@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:web:dev": "webpack-dev-server --mode development --open --progress --inline",
+    "build": "webpack-dev-server --mode development --open --progress --inline",
     "start": "ts-node src/index.ts"
   },
   "keywords": [
