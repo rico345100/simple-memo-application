@@ -6,7 +6,6 @@ export interface CustomHTMLElement extends HTMLElement {
 
 export interface ObservableHTMLElement extends CustomHTMLElement {
     onclick$?: Observable<Event>
-    ondatareceived$?: Observable<any>,
     unsubscriber$?: Subject<boolean>|undefined
 }
 

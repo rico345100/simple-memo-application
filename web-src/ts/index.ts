@@ -1,4 +1,3 @@
-import { ApolloQueryResult } from 'apollo-boost';
 import { Note } from '../../src/entity/Note';
 
 // Initialize Apollo Client
@@ -8,6 +7,7 @@ import GQLClient from './GQLClient';
 import './Components/App';
 import './Components/CreateMemoButton';
 import './Components/MemoItem';
+import './Components/FullscreenViewer';
 
 // Import Types
 import { Observable } from 'rxjs';
@@ -16,6 +16,9 @@ import { ObservableHTMLElement, ObservableXHRElement } from './types';
 
 // Import Queries
 import { createNote } from './GraphQL/mutations';
+
+// Import Subjects
+import { toList$, toFullscreen$, requestData$ } from './subjects';
 
 async function createMemo() {
     const title = window.prompt("Type the name of the new memo: ");
@@ -27,14 +30,41 @@ async function createMemo() {
         await GQLClient.instance.mutate({ mutation: createNote, variables });
         
         // Refetch Data!
-        const appEl:ObservableXHRElement = document.getElementById('app');
-        appEl.fetchData();
+        requestData$.next();
     }
     catch(err) {
         alert('Failed to create memo! Check the Browser console to see details!');
         console.error(err);
         console.error(err.stack);
     }
+}
+
+// Refreshing Memo List
+let memoEls:Array<HTMLElement> = [];
+
+async function renderMemos(notes:Note[]) {
+    const appEl:ObservableXHRElement = document.getElementById('app');
+    
+    // Remove previous Memos
+    memoEls.map((memoEl:ObservableHTMLElement) => {
+        memoEl.parentNode.removeChild(memoEl);
+    });
+
+    memoEls = [];
+
+    notes.map((note:Note) => {
+        const memoEl:ObservableHTMLElement = document.createElement('memo-item');
+        memoEl.setAttribute('title', note.title);
+        memoEl.onclick$.pipe(
+            takeUntil(appEl.unsubscriber$)
+        ).subscribe(() => {
+            toFullscreen$.next(note);
+        });
+
+        appEl.el.appendChild(memoEl);
+
+        memoEls.push(memoEl);
+    });
 }
 
 // Delay the execution of main application flow by using IIFE
@@ -55,32 +85,24 @@ async function createMemo() {
     // Create new memo!
     memoButtonClick$.subscribe(createMemo);
 
-    // Refreshing Memo List
-    let memoEls:Array<HTMLElement> = [];
-    
-    appEl.ondatareceived$.subscribe((result:ApolloQueryResult<any>) => {
-        // Remove previous Memos
-        memoEls.map((memoEl:ObservableHTMLElement) => {
-            memoEl.parentNode.removeChild(memoEl);
-        });
+    // Render Memos
+    toList$.subscribe(renderMemos);
 
-        memoEls = [];
+    // Fullscreen Viewer
+    const fullScreenViewerEl:HTMLElement = document.createElement('fullscreen-viewer');
+    document.body.appendChild(fullScreenViewerEl);
 
-        // Create new Memos
-        const { notes } = result.data;
+    fullScreenViewerEl.setAttribute('show', 'false');
 
-        notes.map((note:Note) => {
-            const memoEl:ObservableHTMLElement = document.createElement('memo-item');
-            memoEl.setAttribute('title', note.title);
-            memoEl.onclick$.pipe(
-                takeUntil(appEl.unsubscriber$)
-            ).subscribe(() => {
-                console.log('Clicked', note);
-            });
-
-            appEl.el.appendChild(memoEl);
-
-            memoEls.push(memoEl);
-        });
+    toList$.subscribe(() => fullScreenViewerEl.setAttribute('show', 'false'));
+    toFullscreen$.subscribe((note:Note) => {
+        fullScreenViewerEl.setAttribute('title', note.title);
+        fullScreenViewerEl.setAttribute('text', note.text);
+        fullScreenViewerEl.setAttribute('createdAt', note.createdAt);
+        fullScreenViewerEl.setAttribute('updatedAt', note.updatedAt);
+        fullScreenViewerEl.setAttribute('show', 'true');
     });
+
+    // Fetch Data to begin
+    requestData$.next();
 })();

@@ -70,14 +70,6 @@ module.exports = {
                 ]
             },
             {
-                test: /\.tpl$/,
-                use: [
-                    {
-                        loader: 'raw-loader'
-                    }
-                ]
-            },
-            {
                 test: /\.(png|jpg|gif)$/i,
                 use: [
                     {

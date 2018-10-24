@@ -1,25 +1,21 @@
-import { Observable, Subject } from 'rxjs';
-import { ApolloQueryResult } from 'apollo-boost';
-import { publish } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { ApolloQueryResult } from 'apollo-boost';;
 import GQLClient from '../../GQLClient';
 import { fetchNotes } from '../../GraphQL/queries';
 import { injectStyle } from '../../utils';
+import { toList$, requestData$ } from '../../subjects';
 
 @injectStyle(require('./style.css'))
 class App extends HTMLElement {
     el: HTMLElement
-    ondatareceived$: Subject<any>
     unsubscriber$: Subject<boolean>
 
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.ondatareceived$ = new Subject<any>();
-
         this.render();
-    }
-    connectedCallback() {
-        this.fetchData();
+
+        this.unsubscriber$ = new Subject<boolean>();
     }
     async fetchData() {
         // If already has subscribers, unsubscribe them all
@@ -31,8 +27,8 @@ class App extends HTMLElement {
         this.unsubscriber$ = new Subject<boolean>();
 
         try {
-            const data:ApolloQueryResult<any> = await GQLClient.instance.query({ query: fetchNotes });
-            this.ondatareceived$.next(data);
+            const result:ApolloQueryResult<any> = await GQLClient.instance.query({ query: fetchNotes });
+            toList$.next(result.data.notes);
         }
         catch(err) {
             console.error(err);
@@ -54,6 +50,8 @@ class App extends HTMLElement {
         this.el.appendChild(descEl);
 
         this.shadowRoot.appendChild(this.el);
+
+        requestData$.subscribe(this.fetchData);
     }
 }
 
