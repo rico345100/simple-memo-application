@@ -4,6 +4,17 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 let m_Client:ApolloClient<any>;
 
+const defaultOptions = {
+    watchQuery: {
+        fetchPolicy: 'network-only',
+        errorPolicy: 'ignore',
+      },
+      query: {
+        fetchPolicy: 'network-only',
+        errorPolicy: 'all',
+      }
+};
+
 export default {
     initialize() {
         const httpLink = createHttpLink({
@@ -12,7 +23,9 @@ export default {
 
         m_Client = new ApolloClient({
             cache: new InMemoryCache(),
-            link: httpLink
+            link: httpLink,
+            // @ts-ignore
+            defaultOptions 
         });
     },
     get instance():ApolloClient<any> {

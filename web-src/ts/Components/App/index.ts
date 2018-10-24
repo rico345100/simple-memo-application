@@ -9,6 +9,7 @@ import { injectStyle } from '../../utils';
 class App extends HTMLElement {
     el: HTMLElement
     ondatareceived$: Subject<any>
+    unsubscriber$: Subject<boolean>
 
     constructor() {
         super();
@@ -21,6 +22,14 @@ class App extends HTMLElement {
         this.fetchData();
     }
     async fetchData() {
+        // If already has subscribers, unsubscribe them all
+        if(this.unsubscriber$) {
+            this.unsubscriber$.next(true);
+            this.unsubscriber$.unsubscribe();
+        }
+
+        this.unsubscriber$ = new Subject<boolean>();
+
         try {
             const data:ApolloQueryResult<any> = await GQLClient.instance.query({ query: fetchNotes });
             this.ondatareceived$.next(data);

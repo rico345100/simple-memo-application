@@ -36,7 +36,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/, 
+                test: /\.tsx?$/,
                 use: {
                     loader: 'ts-loader',
                     options: {
@@ -74,6 +74,17 @@ module.exports = {
                 use: [
                     {
                         loader: 'raw-loader'
+                    }
+                ]
+            },
+            {
+                test: /\.(png|jpg|gif)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
                     }
                 ]
             }

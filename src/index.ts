@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import * as Koa from 'koa';
+// @ts-ignore
 import * as logger from 'koa-log';
 import * as bodyParser from 'koa-bodyparser';
 import { ApolloServer } from 'apollo-server-koa';

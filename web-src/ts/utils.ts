@@ -18,3 +18,13 @@ export function injectStyle(css:string, ...args:any) {
         };
     };
 }
+
+/**
+ * Wait until specified ms passed
+ * @param {number} ms - Miliseconds
+ */
+export function delay(ms:number) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}

@@ -1,9 +1,13 @@
 import { Observable, fromEvent } from 'rxjs';
 import { injectStyle } from '../../utils';
+// @ts-ignore
+import memoIcon from '../../../images/memo.png';
 
 @injectStyle(require('./style.css'))
 class MemoItem extends HTMLElement {
     el: HTMLElement
+    imageEl: HTMLImageElement
+    textEl: HTMLParagraphElement
     onclick$: Observable<Event>
 
     static get observedAttributes() {
@@ -16,15 +20,22 @@ class MemoItem extends HTMLElement {
         this.render();
     }
     attributeChangedCallback(attrName:string, oldVal:any, newVal:any) {
-        this.el.innerText = this.getAttribute('title');
+        this.textEl.innerText = this.getAttribute('title');
     }
     render() {
         this.el = document.createElement('div');
         this.el.className = 'note';
-        
-        const title = this.getAttribute('title');
 
-        this.el.innerText = title;
+        this.imageEl = document.createElement('img');
+        this.imageEl.className = 'img';
+        this.imageEl.src = memoIcon;
+        this.el.appendChild(this.imageEl);
+
+        this.textEl = document.createElement('p');
+        this.textEl.className = 'title';
+        this.el.appendChild(this.textEl);
+        
+        this.attributeChangedCallback(null, null, null);
 
         this.onclick$ = fromEvent(this.el, 'click');
         this.shadowRoot.appendChild(this.el);
