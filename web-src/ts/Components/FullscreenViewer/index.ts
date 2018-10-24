@@ -1,9 +1,10 @@
 import { fromEvent } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { toList$, deleteNote$, requestData$ } from '../../subjects';
+import GQLClient from '../../GQLClient';
+import { requestData$ } from '../../subjects';
 import { injectStyle } from '../../utils';
 // @ts-ignore
 import trashCan from '../../../images/trash-can.png';
+import { deleteNote } from '../../GraphQL/mutations';
 
 @injectStyle(require('./style.css'))
 class FullscreenViewer extends HTMLElement {
@@ -17,7 +18,7 @@ class FullscreenViewer extends HTMLElement {
     deleteButtonEl: HTMLElement
 
     static get observedAttributes() {
-        return ['title', 'text', 'createdAt', 'updatedAt', 'show'];
+        return ['id', 'title', 'text', 'createdAt', 'updatedAt', 'show'];
     }
     constructor() {
         super();
@@ -65,6 +66,28 @@ class FullscreenViewer extends HTMLElement {
         this.deleteButtonEl.appendChild(img);
         
         this.el.appendChild(this.deleteButtonEl);
+
+        fromEvent(this.deleteButtonEl, 'click')
+        .subscribe(() => this.deleteMemo());
+    }
+    async deleteMemo() {
+        if(!window.confirm('You sure delete this memo? Memo will never going back.')) {
+            return;
+        }
+
+        try {
+            const variables = { 
+                id: +this.getAttribute('id')
+            };
+            await GQLClient.instance.mutate({ mutation: deleteNote, variables });
+        }
+        catch(err) {
+            window.alert('Failed to delete Memo! See the console to details');
+            console.error(err);
+            console.error(err.stack);
+        }
+
+        requestData$.next();
     }
     render() {
         this.el = document.createElement('div');

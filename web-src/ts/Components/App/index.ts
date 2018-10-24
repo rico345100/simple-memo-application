@@ -1,21 +1,28 @@
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ApolloQueryResult } from 'apollo-boost';;
 import GQLClient from '../../GQLClient';
 import { fetchNotes } from '../../GraphQL/queries';
 import { injectStyle } from '../../utils';
-import { toList$, requestData$ } from '../../subjects';
+import { toList$, requestData$, toFullscreen$ } from '../../subjects';
+import { Note } from '../../../../src/entity/Note';
+import { ObservableHTMLElement } from '../../types';
 
 @injectStyle(require('./style.css'))
 class App extends HTMLElement {
     el: HTMLElement
+    memoEls: Array<HTMLElement>
     unsubscriber$: Subject<boolean>
 
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.render();
 
+        this.memoEls = [];
+
+        this.attachShadow({ mode: 'open' });
         this.unsubscriber$ = new Subject<boolean>();
+
+        this.render();
     }
     async fetchData() {
         // If already has subscribers, unsubscribe them all
@@ -35,6 +42,28 @@ class App extends HTMLElement {
             console.error(err.stack);
         }
     }
+    renderMemos(notes:Note[]) {
+        // Remove previous Memos
+        this.memoEls.map((memoEl:HTMLElement) => {
+            memoEl.parentNode.removeChild(memoEl);
+        });
+
+        this.memoEls = [];
+
+        notes.map((note:Note) => {
+            const memoEl:ObservableHTMLElement = document.createElement('memo-item');
+            memoEl.setAttribute('title', note.title);
+            memoEl.onclick$.pipe(
+                takeUntil(this.unsubscriber$)
+            ).subscribe(() => {
+                toFullscreen$.next(note);
+            });
+    
+            this.el.appendChild(memoEl);
+    
+            this.memoEls.push(memoEl);
+        });
+    }
     render() {
         this.el = document.createElement('div');
         this.el.className = 'memo-app';
@@ -52,6 +81,7 @@ class App extends HTMLElement {
         this.shadowRoot.appendChild(this.el);
 
         requestData$.subscribe(this.fetchData);
+        toList$.subscribe((notes:Note[]) => this.renderMemos(notes));
     }
 }
 
