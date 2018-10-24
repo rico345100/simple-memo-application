@@ -1,3 +1,4 @@
+// Import Entity Types
 import { Note } from '../../src/entity/Note';
 
 // Initialize Apollo Client
