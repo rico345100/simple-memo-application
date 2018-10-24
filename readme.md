@@ -6,6 +6,7 @@
 - SQLite3 with TypeORM
 - TS for static type check
 
+
 ## How to run
 Make sure you already installed Node.js and SQLite3.
 
@@ -18,14 +19,17 @@ $ npm install
 Next, run the Koa server.
 
 ```bash
-$ node index
+$ npm start
 ```
 
 Finally, run Webpack Dev Server.
 
 ```bash
-$ npm start
+$ npm start:client
 ```
+
+Note that not production build command added yet.
+
 
 ## Why did you switched Sequelize to TypeORM?
 It's just my mistake, I thought that my next project in my company uses Sequelize, however it was TypeORM.
