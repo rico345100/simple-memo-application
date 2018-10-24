@@ -1,7 +1,6 @@
 import { ApolloClient } from 'apollo-boost';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import gql from 'graphql-tag';
 
 let m_Client:ApolloClient<any>;
 

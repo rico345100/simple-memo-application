@@ -1,38 +1,29 @@
-import gql from 'graphql-tag';
+import { Observable, Subject } from 'rxjs';
+import { ApolloQueryResult } from 'apollo-boost';
+import { publish } from 'rxjs/operators';
 import GQLClient from '../../GQLClient';
+import { fetchNotes } from '../../GraphQL/queries';
+import { injectStyle } from '../../utils';
 
-const style = require('./style.css');
-
-const fetchNotesQuery = gql`
-{
-    notes {
-        id
-        title
-        text
-        createdAt
-        updatedAt
-    }
-}
-`;
-
+@injectStyle(require('./style.css'))
 class App extends HTMLElement {
     el: HTMLElement
+    ondatareceived$: Subject<any>
 
-    constructor(...args:Array<any>) {
+    constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.ondatareceived$ = new Subject<any>();
+
+        this.render();
     }
     connectedCallback() {
-        this.render();
         this.fetchData();
     }
     async fetchData() {
         try {
-            const data = await GQLClient.instance.query({
-                query: fetchNotesQuery
-            });
-            
-            console.log(data);
+            const data:ApolloQueryResult<any> = await GQLClient.instance.query({ query: fetchNotes });
+            this.ondatareceived$.next(data);
         }
         catch(err) {
             console.error(err);
@@ -41,15 +32,19 @@ class App extends HTMLElement {
     }
     render() {
         this.el = document.createElement('div');
-        this.el.className = 'app';
-        this.el.innerText = 'Helloworld';
+        this.el.className = 'memo-app';
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'title';
+        titleEl.innerText = 'Simple Memo Application';
+        this.el.appendChild(titleEl);
+
+        const descEl = document.createElement('div');
+        descEl.className = 'description';
+        descEl.innerText = 'Click [+Button] to create new Memo / Click Memo to see detail';
+        this.el.appendChild(descEl);
 
         this.shadowRoot.appendChild(this.el);
-        
-        const styleEl = document.createElement('style');
-        styleEl.innerText = style;
-
-        this.shadowRoot.appendChild(styleEl);
     }
 }
 
