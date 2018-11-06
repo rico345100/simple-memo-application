@@ -5,7 +5,7 @@
       "noImplicitAny": true,
       "sourceMap": true,
       "moduleResolution": "node",
-      "module": "es6",
+      "module": "commonjs",
       "target": "es2015",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true
